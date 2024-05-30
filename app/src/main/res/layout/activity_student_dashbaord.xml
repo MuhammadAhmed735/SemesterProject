@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.StudentDashbaordActivity">
+
+    <include
+        android:id="@+id/appbar2"
+        layout="@layout/app_bar_layout"/>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_below="@+id/appbar2"
+        android:layout_above="@id/std_bottom_nav"
+        />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/std_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/navbar_background"
+
+        app:itemIconTint="@drawable/nav_item_icon_tint"
+        app:itemTextColor="@drawable/nav_item_text_tint"
+        android:layout_alignParentBottom="true"
+
+        app:menu="@menu/std_bottom_nav_menu"
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+</RelativeLayout>

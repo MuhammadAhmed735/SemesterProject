@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    app:cardCornerRadius="0dp"
+    app:strokeWidth="0dp"
+    app:strokeColor="#3E454040"
+
+
+    android:id="@+id/settingscardLayout">
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/settingsLayout"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineiconEnd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineiconStart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.07"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidetitleStart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.20"
+        />
+    <ImageView
+        android:id="@+id/iconView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        app:tint="@color/colorPrimary"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guidelineiconStart"
+        app:layout_constraintEnd_toEndOf="@id/guidelineiconEnd"
+        android:src="@drawable/theme_icon2"
+        />
+    <TextView
+        android:id="@+id/settingstitleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Language Settings"
+
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+
+        android:paddingTop="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guidetitleStart"/>
+    <TextView
+        android:id="@+id/settingsdescriptionView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#817F7F"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="2dp"
+        android:text="Language and Regions"
+        android:textSize="13sp"
+        android:paddingBottom="15dp"
+        app:layout_constraintTop_toBottomOf="@id/settingstitleView"
+        app:layout_constraintStart_toEndOf="@id/guidetitleStart"/>
+
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="wrap_content"
+        android:layout_height="1.1dp"
+        android:background="#3E454040"
+
+        app:layout_constraintTop_toBottomOf="@id/settingsdescriptionView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

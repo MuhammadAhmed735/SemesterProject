@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/flowers"
+    tools:context=".ui.activities.LoginActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/cardTop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.17" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/cardBottom"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.83" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/cardLeft"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/cardRight"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.93" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/login_cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+
+        app:cardElevation="5dp"
+        app:cardBackgroundColor="#C4FFFFFF"
+        android:rotation="0"
+        android:rotationX="0"
+        android:rotationY="0"
+        app:cardCornerRadius="25dp"
+        app:strokeColor="#FFFFFF"
+        app:strokeWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/cardBottom"
+        app:layout_constraintEnd_toEndOf="@id/cardRight"
+        app:layout_constraintStart_toStartOf="@id/cardLeft"
+        app:layout_constraintTop_toTopOf="@id/cardTop">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/login_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/abeezee"
+            android:gravity="center"
+            android:letterSpacing="0.03"
+
+            android:text="Log in to your Account"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/login_button_bottom"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintGuide_percent="0.76" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/edittext_left"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintGuide_percent="0.07" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/edittext_right"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintGuide_percent="0.93" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/email_layout_top"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintGuide_percent="0.25" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/password_layout_top"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintGuide_percent="0.44" />
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/forgotPassword_guideline"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+
+                app:layout_constraintGuide_percent="0.90" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:elevation="25dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:letterSpacing="0.04"
+
+                android:textAllCaps="false"
+                android:backgroundTint="@color/colorPrimary"
+                android:padding="12dp"
+                android:text="Sign in"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="15dp"
+                app:layout_constraintEnd_toEndOf="@id/edittext_right"
+                app:layout_constraintStart_toEndOf="@id/register_button"
+                app:layout_constraintTop_toBottomOf="@+id/login_button_bottom" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/register_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:padding="12dp"
+                android:text="Register"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                app:cornerRadius="15dp"
+                android:textStyle="bold"
+                app:strokeColor="#EB160FE1"
+                app:layout_constraintEnd_toStartOf="@id/login_button"
+                app:layout_constraintStart_toStartOf="@id/edittext_left"
+                app:layout_constraintTop_toBottomOf="@+id/login_button_bottom"
+
+
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                app:boxCornerRadiusTopStart="@dimen/textinputlayout_cornerRadius"
+                app:boxCornerRadiusTopEnd="@dimen/textinputlayout_cornerRadius"
+                app:boxCornerRadiusBottomStart="@dimen/textinputlayout_cornerRadius"
+                app:boxCornerRadiusBottomEnd="@dimen/textinputlayout_cornerRadius"
+                android:hint="Email Address"
+                app:helperText=""
+                app:errorEnabled="true"
+
+                app:errorContentDescription="Invalid Email Address"
+                app:layout_constraintEnd_toEndOf="@id/edittext_right"
+                app:layout_constraintStart_toStartOf="@id/edittext_left"
+                app:layout_constraintTop_toTopOf="@id/email_layout_top"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:drawableStart="@drawable/email_icon1"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/purple"
+                    android:inputType="textEmailAddress"
+
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+
+
+                app:boxCornerRadiusBottomEnd="@dimen/textinputlayout_cornerRadius"
+
+                app:boxCornerRadiusBottomStart="@dimen/textinputlayout_cornerRadius"
+                app:boxCornerRadiusTopEnd="@dimen/textinputlayout_cornerRadius"
+                app:boxCornerRadiusTopStart="@dimen/textinputlayout_cornerRadius"
+                app:counterMaxLength="15"
+                app:counterEnabled="true"
+                app:errorContentDescription="Invalid Password"
+                app:helperText="6-15 characters"
+                app:layout_constraintEnd_toEndOf="@id/edittext_right"
+
+                app:layout_constraintStart_toStartOf="@id/edittext_left"
+                app:layout_constraintTop_toTopOf="@id/password_layout_top"
+                app:passwordToggleEnabled="true"
+                app:errorEnabled="true"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/lock2"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:inputType="textPassword"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/forgotPassword"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:textSize="13sp"
+                android:padding="0dp"
+                android:fontFamily="@font/abeezee"
+                android:text="Forgot Password?"
+
+                android:textAllCaps="false"
+                android:textColor="#DC28282B"
+                app:layout_constraintEnd_toStartOf="@+id/edittext_right"
+                app:layout_constraintTop_toBottomOf="@+id/password_layout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
