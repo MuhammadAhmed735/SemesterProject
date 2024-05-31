@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="purple">#5A4FF7</color>
+    <color name="pink">#5A4FF7</color>
     <color name="themeColor">@color/purple</color>
     <color name="colorPrimary">@color/purple</color>
     <color name="unselected_color">#3E3C3C</color>
