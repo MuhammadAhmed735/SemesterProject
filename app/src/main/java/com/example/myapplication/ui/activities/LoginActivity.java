@@ -183,8 +183,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             {
                 emailLayout.setError(null);
                 passwordLayout.setError(null);
-                Toast.makeText(this,"Successfully Logged in",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this,SettingsActivity.class);
+
+                Intent intent = new Intent(this,StudentDashbaordActivity.class);
                 startActivity(intent);
             }
 

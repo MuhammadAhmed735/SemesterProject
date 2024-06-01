@@ -47,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="43dp"
                 android:layout_weight="0.95"
-                android:layout_marginBottom="5dp"
+
                 android:paddingStart="10dp"
 
                 app:boxBackgroundColor="@color/white"
@@ -65,15 +65,14 @@
                     android:layout_height="match_parent"
                     android:inputType="text"
 
-
                     android:drawablePadding="7dp"
+                    android:padding="0dp"
 
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:drawableStart="@drawable/ic_search"
                     android:textSize="16sp"
-                    android:textColor="#534D4D"
-                    android:hint="Search"
-                    android:padding="15dp"
+                    android:textColor="#6E6565"
+                    android:text="Search"
+
             />
             </com.google.android.material.textfield.TextInputLayout>
 

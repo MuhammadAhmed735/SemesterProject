@@ -4,12 +4,224 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.ProfileFragment">
+    tools:context=".ui.fragments.ProfileFragment"
+    android:background="#F3F3FF">
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <View
+            android:id="@+id/topbox"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/colorPrimary"
+            />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/profilepic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="2"
+            android:scaleY="2"
 
 
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_profile"
+            android:layout_marginTop="-20dp"
+            app:layout_constraintTop_toBottomOf="@id/topbox"
+            />
+        <TextView
+            android:id="@+id/name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Muhammad Ahmed"
+            android:textStyle="bold"
+
+            android:fontFamily="@font/abeezee"
+            android:textColor="#353333"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profilepic"
+            android:layout_marginTop="40dp"
+            />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/student_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/profilepic"
+            android:layout_marginTop="90dp"
+            android:text="Student Name"
+            android:textSize="16sp"
+            android:layout_marginStart="25dp"
+            android:textColor="#605858"
+
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/student_name"
+            app:layout_constraintStart_toStartOf="@id/student_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardElevation="15dp"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
 
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
+                app:boxStrokeWidth="0dp"
+
+
+                >
+                <EditText
+                    android:id="@+id/std_name_edittext"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/abeezee"
+                    android:layout_height="match_parent"
+                    android:text="Muhammad Ahmed"
+                    />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/student_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/card1"
+            android:layout_marginTop="20dp"
+            android:text="Email Address"
+            android:textSize="16sp"
+            android:layout_marginStart="25dp"
+            android:textColor="#605858"
+
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/student_email"
+            app:layout_constraintStart_toStartOf="@id/student_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardElevation="15dp"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+                app:boxStrokeWidth="0dp"
+
+
+                >
+                <EditText
+                    android:id="@+id/std_emailedittext"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/abeezee"
+                    android:layout_height="match_parent"
+                    android:inputType="textEmailAddress"
+                    android:text="dummyemail123@domain.com"
+                    />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/student_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/card2"
+            android:layout_marginTop="20dp"
+            android:text="Contact No#"
+            android:textSize="16sp"
+            android:layout_marginStart="25dp"
+            android:textColor="#605858"
+
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/student_phone"
+            app:layout_constraintStart_toStartOf="@id/student_phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardElevation="15dp"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+                app:boxStrokeWidth="0dp"
+
+
+                >
+                <EditText
+                    android:id="@+id/std_phone_edittext"
+                    android:layout_width="match_parent"
+                    android:fontFamily="sans-serif"
+                    android:layout_height="match_parent"
+                    android:text="03201234567"
+                    android:inputType="phone"
+                    />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateProfileButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/card3"
+            android:layout_marginStart="20dp"
+            android:paddingTop="15dp"
+            app:icon="@drawable/ic_save"
+            app:iconGravity="textStart"
+            app:iconPadding="15dp"
+            app:cornerRadius="10dp"
+            android:paddingBottom="15dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Update Profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
