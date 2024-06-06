@@ -4,10 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapters.CourseAdapter;
+import com.example.myapplication.adapters.TaskAdapter;
+import com.example.myapplication.models.Course;
+import com.example.myapplication.models.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -17,6 +25,11 @@ import com.example.myapplication.R;
  */
 public class CoursesFragment extends Fragment {
 
+    private ListView courseslistView;
+
+    private List<Course>coursesList;
+
+    private CourseAdapter courseAdapter;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +74,19 @@ public class CoursesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_courses, container, false);
+        View view = inflater.inflate(R.layout.fragment_courses, container, false);
+
+        coursesList = generateCourses();
+        courseAdapter = new CourseAdapter(getContext(),coursesList);
+        courseslistView.setAdapter(courseAdapter);
+        return view;
+    }
+    public List<Course> generateCourses()
+    {
+        List<Course> courses = new ArrayList<>();
+        courses.add(new Course("MAD-383","Mobile App Development",6,"F11-arid-775",16));
+        courses.add(new Course("Web-777","Web Engineering",6,"F14-arid-654",16));
+        courses.add(new Course("CS-433","OOAD",6,"F12-arid-532",16));
+        return courses;
     }
 }
