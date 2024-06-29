@@ -5,11 +5,14 @@ import java.util.List;
 
 public class Student extends User {
     private List<String> taskIds;
+    private List<String> enrolledCoursesIds;
 
     // Constructor
-    public Student(String userId, String name, String email, String password) {
-        super(userId, name, email, password);
-        this.taskIds = new ArrayList<>();
+    public Student(String userId, String name,String username, String email, String password,int profilePic,
+    List<String> enrolledCoursesIds,List<String> taskIds) {
+        super(userId, name,username, email, password,profilePic);
+        this.taskIds =  taskIds;
+        this.enrolledCoursesIds = enrolledCoursesIds;
     }
 
     // Getters and Setters
@@ -23,6 +26,18 @@ public class Student extends User {
 
     public void removeTaskId(String taskId) {
         this.taskIds.remove(taskId);
+    }
+
+    public List<String> getEnrolledCoursesIds() {
+        return enrolledCoursesIds;
+    }
+    public List<Task> viewAssignedTasks()
+    {
+        return null;
+    }
+    public Boolean submitTask()
+    {
+        return true;
     }
 
     @Override

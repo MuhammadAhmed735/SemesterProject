@@ -1,17 +1,20 @@
 package com.example.myapplication.models;
 
 public abstract class User {
-    private String userId;
-    private String name;
-    private String email;
-    private String password;
+    protected String userId;
+    protected String name;
+    protected String username;
+    protected String email;
+    protected String password;
+    protected int profilePic;
 
     // Constructors
-    public User(String userId, String name, String email, String password) {
+    public User(String userId, String name,String username, String email, String password,int profilePic) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.profilePic = profilePic;
     }
 
     // Getters and Setters
@@ -31,6 +34,15 @@ public abstract class User {
         this.name = name;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
     public String getEmail() {
         return email;
     }
@@ -45,6 +57,14 @@ public abstract class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setProfilePic(int profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public int getProfilePic() {
+        return profilePic;
     }
 
     // Abstract methods (to be implemented by subclasses)

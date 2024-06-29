@@ -7,9 +7,9 @@ public class Teacher extends User {
     private List<String> assignedTaskIds;
 
     // Constructor
-    public Teacher(String userId, String name, String email, String password) {
-        super(userId, name, email, password);
-        this.assignedTaskIds = new ArrayList<>();
+    public Teacher(String userId, String name, String username,String email, String password,int profilePic) {
+        super(userId, name,username, email, password,profilePic);
+        this.assignedTaskIds = assignedTaskIds;
     }
 
     // Getters and Setters

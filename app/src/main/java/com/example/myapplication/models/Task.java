@@ -13,15 +13,54 @@ public class Task {
     private int status_icon;
     private String task_description;
     private String taskId;
+    private boolean isCompleted ;
     private String assignedByTeacherId;
     private List<String> assignedToStudentIds;
 
-    public Task(int icon,String task_title, String date, int status)
+    public Task(int icon,String task_title,String task_description, String date,
+                String assignedDate, int status,String assignedByTeacherId)
     {
         this.task_icon= icon;
         this.task_title = task_title;
         this.due_date = date;
         this.status_icon = status;
+        this.task_description = task_description;
+        this.assignedDate = assignedDate;
+        this.assignedByTeacherId = assignedByTeacherId;
+        isCompleted = false;
+    }
+
+    public String getAssignedByTeacherId() {
+        return assignedByTeacherId;
+    }
+
+    public String getAssignedDate() {
+        return assignedDate;
+    }
+
+    public String getDue_date() {
+        return due_date;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+
+    public void setAssignedDate(String assignedDate) {
+        this.assignedDate = assignedDate;
+    }
+
+    public void setAssignedToStudentIds(List<String> assignedToStudentIds) {
+        this.assignedToStudentIds = assignedToStudentIds;
+    }
+
+    public void setDue_date(String due_date) {
+        this.due_date = due_date;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
 
@@ -84,5 +123,23 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void markAsDone()
+    {
+        isCompleted = true;
+    }
+    public boolean isCompleted()
+    {
+        return isCompleted;
+    }
+
+    public void deleteTask()
+    {
+
+    }
+    public boolean attachFile(String filepath)
+    {
+        return true;
     }
 }

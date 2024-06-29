@@ -68,7 +68,7 @@ public class TasksFragment extends Fragment {
 
         for (int i = 0; i < 10; i++) {
 
-            tasks.add(new Task(taskicon, taskTitle, date, taskStatus));
+            tasks.add(new Task(taskicon, taskTitle, "total",date,date,taskStatus,"bushra"));
         }
 
         return tasks;
