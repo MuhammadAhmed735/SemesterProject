@@ -13,31 +13,34 @@
         android:theme="@style/Theme.TaskHive"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.AddTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.TaskDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.SplashScreen"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"/>
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.TeacherDashboardActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".ui.activities.StudentDashbaordActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.SignUpActivity"
-            android:exported="false" />
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activities.LoginActivity"
             android:exported="false" />

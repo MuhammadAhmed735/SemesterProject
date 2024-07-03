@@ -23,6 +23,7 @@ public class TasksFragment extends Fragment {
     private TaskAdapter taskAdapter;
     private List<Task> taskList;
 
+
     public TasksFragment() {
 
     }
@@ -68,7 +69,7 @@ public class TasksFragment extends Fragment {
 
         for (int i = 0; i < 10; i++) {
 
-            tasks.add(new Task(taskicon, taskTitle, "total",date,date,taskStatus,"bushra"));
+            tasks.add(new Task( taskTitle, "total",date,date,"bushra"));
         }
 
         return tasks;

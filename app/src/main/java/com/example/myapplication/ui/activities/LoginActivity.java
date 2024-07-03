@@ -1,7 +1,7 @@
 package com.example.myapplication.ui.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,217 +9,195 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.myapplication.R;
+import com.example.myapplication.models.Student;
+import com.example.myapplication.models.Teacher;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private MaterialTextView headingTextView;
+    private TextInputLayout emailLayout;
+    private TextInputLayout passwordLayout;
+    private TextInputEditText emailEditText;
+    private TextInputEditText passEditText;
+    private MaterialButton loginButton;
+    private MaterialButton registerButton;
+    private MaterialButton forgotPassButton;
+    private FirebaseAuth mAuth;
 
-        private MaterialTextView headingTextView;
-        private TextInputLayout emailLayout;
-        private TextInputLayout passwordLayout;
+    private String emailAddress;
+    private String password;
+    private final static int MINIMUM_PASSWORD_LENGTH = 6;
+    private final static int MAXIMUM_PASSWORD_LENGTH = 15;
 
-        private TextInputEditText email_editText;
-        private TextInputEditText pass_editText;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-        private MaterialButton loginButton;
-        private MaterialButton registerButton;
-        private MaterialButton forgotPassButton;
+        mAuth = FirebaseAuth.getInstance();
 
-        private String emailAddress;
-        private String password;
-
-        private final static int MINIMUM_PASSWORD_LENGTH= 6;
-        private final static int MAXIMUM_PASSWORD_LENGTH= 15;
-        private final static String emailPattern =android.util.Patterns.EMAIL_ADDRESS.toString();
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_login);
-
-            initializeViews();
-            setClickListeners();
-            setTextChangeListeners();
-        }
-
-        public void initializeViews()
-        {
-            headingTextView  = findViewById(R.id.login_heading);
-            emailLayout      = findViewById(R.id.email_layout);
-            passwordLayout   = findViewById(R.id.password_layout);
-
-            email_editText   = findViewById(R.id.email_edit_text);
-            pass_editText    = findViewById(R.id.password_edit_text);
-
-            loginButton      = findViewById(R.id.login_button);
-            registerButton   = findViewById(R.id.register_button);
-            forgotPassButton = findViewById(R.id.forgotPassword);
-        }
-        public void setClickListeners()
-        {
-            loginButton.setOnClickListener(this);
-            registerButton.setOnClickListener(this);
-            forgotPassButton.setOnClickListener(this);
-
-        }
-        public void setTextChangeListeners()
-        {
-            pass_editText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence input, int start, int before, int count) {
-
-                    int passwordLength = input.length();
-
-                    if (passwordLength < MINIMUM_PASSWORD_LENGTH) {
-                        passwordLayout.setError("Password is too short");
-                    }
-                    else if (passwordLength > MAXIMUM_PASSWORD_LENGTH) {
-                        passwordLayout.setError("Password is too long");
-                    }
-                    else {
-                        passwordLayout.setError(null);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-
-            email_editText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence input, int start, int before, int count) {
-
-                    emailLayout.setError(null);
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-        }
-
-        @Override
-        public void onClick(View view) {
-
-            int viewId = view.getId();
-
-            if(viewId == loginButton.getId())
-            {
-                validateCredentials();
-            }
-            else if(viewId == registerButton.getId())
-            {
-                startSignUpActivity();
-            }
-            else if(viewId == forgotPassButton.getId())
-            {
-                forgetPassword();
-            }
-        }
-
-        public void startSignUpActivity()
-        {
-            Intent intent = new Intent(this, SignUpActivity.class);
-            startActivity(intent);
-        }
-        public void validateCredentials()
-        {
-            emailAddress = email_editText.getText().toString().trim();
-            password     = pass_editText.getText().toString().trim();
-
-            Boolean isEmpty = false;
-
-            Boolean isValidEmail = false;
-            Boolean isValidPassword = false;
-            if(emailAddress.isEmpty())
-            {
-                emailLayout.setError("Please Enter Email Address");
-                isValidEmail = false;
-            }
-            else {
-                emailLayout.setError(null);
-                if(!Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches())
-                {
-                    emailLayout.setError("Invalid Email Address");
-                }
-                else
-                {
-                    isValidEmail = true;
-                }
-            }
-            if(password.isEmpty())
-            {
-                passwordLayout.setError("Please Enter Password");
-                isValidPassword = false;
-            }
-            else {
-                passwordLayout.setError(null);
-                if(password.length()<MINIMUM_PASSWORD_LENGTH || password.length()>MAXIMUM_PASSWORD_LENGTH){
-                    passwordLayout.setError("Invalid Password");
-                }
-                else {
-                    isValidPassword = true;
-                }
-            }
-
-            if(isValidEmail && isValidPassword)
-            {
-                emailLayout.setError(null);
-                passwordLayout.setError(null);
-
-                Intent intent = new Intent(this,StudentDashbaordActivity.class);
-                startActivity(intent);
-            }
-
-        /*
-
-            Boolean isInValid = false;
-            if(!Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches() && !emailAddress.isEmpty())
-            {
-                isInValid = true;
-                emailLayout.setError("Invalid Email Address");
-            }
-            else {
-                //emailLayout.setError(null);
-            }
-            if((password.length()<MINIMUM_PASSWORD_LENGTH || password.length()>MAXIMUM_PASSWORD_LENGTH) && !password.isEmpty())
-            {
-                isInValid = true;
-                passwordLayout.setError("Invalid Password length");
-            }
-            else {
-             //   passwordLayout.setError(null);
-            }
-            if(isInValid)
-            {
-                emailLayout.setError(null);
-                passwordLayout.setError(null);
-                Toast.makeText(this,"Successfully Logged in",Toast.LENGTH_SHORT).show();
-            }
-            */
-
-        }
-
-        public void forgetPassword()
-        {
-
-        }
-
+        initializeViews();
+        setClickListeners();
+        setTextChangeListeners();
     }
+
+    public void initializeViews() {
+        headingTextView = findViewById(R.id.login_heading);
+        emailLayout = findViewById(R.id.email_layout);
+        passwordLayout = findViewById(R.id.password_layout);
+        emailEditText = findViewById(R.id.email_edit_text);
+        passEditText = findViewById(R.id.password_edit_text);
+        loginButton = findViewById(R.id.login_button);
+        registerButton = findViewById(R.id.register_button);
+        forgotPassButton = findViewById(R.id.forgotPassword);
+    }
+
+    public void setClickListeners() {
+        loginButton.setOnClickListener(this);
+        registerButton.setOnClickListener(this);
+        forgotPassButton.setOnClickListener(this);
+    }
+
+    public void setTextChangeListeners() {
+        passEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence input, int start, int before, int count) {
+                int passwordLength = input.length();
+                if (passwordLength < MINIMUM_PASSWORD_LENGTH) {
+                    passwordLayout.setError("Password is too short");
+                } else if (passwordLength > MAXIMUM_PASSWORD_LENGTH) {
+                    passwordLayout.setError("Password is too long");
+                } else {
+                    passwordLayout.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence input, int start, int before, int count) {
+                emailLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    @Override
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if (viewId == loginButton.getId()) {
+            validateCredentials();
+        } else if (viewId == registerButton.getId()) {
+            startSignUpActivity();
+        } else if (viewId == forgotPassButton.getId()) {
+            startForgotPasswordActivity();
+        }
+    }
+
+    public void startSignUpActivity() {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
+
+    public void startForgotPasswordActivity() {
+        // Intent intent = new Intent(this, ForgotPasswordActivity.class);
+        // startActivity(intent);
+    }
+
+    public void validateCredentials() {
+        emailAddress = emailEditText.getText().toString().trim();
+        password = passEditText.getText().toString().trim();
+
+        boolean isValidEmail = false;
+        boolean isValidPassword = false;
+
+        if (emailAddress.isEmpty()) {
+            emailLayout.setError("Please Enter Email Address");
+        } else {
+            emailLayout.setError(null);
+            if (!Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+                emailLayout.setError("Invalid Email Address");
+            } else {
+                isValidEmail = true;
+            }
+        }
+
+        if (password.isEmpty()) {
+            passwordLayout.setError("Please Enter Password");
+        } else {
+            passwordLayout.setError(null);
+            if (password.length() < MINIMUM_PASSWORD_LENGTH || password.length() > MAXIMUM_PASSWORD_LENGTH) {
+                passwordLayout.setError("Invalid Password");
+            } else {
+                isValidPassword = true;
+            }
+        }
+
+        if (isValidEmail && isValidPassword) {
+            loginUser(emailAddress, password);
+        }
+    }
+
+    private void loginUser(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        fetchUserRoleAndRedirect(user.getUid());
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void fetchUserRoleAndRedirect(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference studentRef = db.collection("students").document(userId);
+        studentRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                // User is a student
+                Student student = task.getResult().toObject(Student.class);
+                Intent intent = new Intent(LoginActivity.this, StudentDashbaordActivity.class);
+                intent.putExtra("user", student);
+                startActivity(intent);
+                finish();
+            } else {
+                DocumentReference teacherRef = db.collection("teachers").document(userId);
+                teacherRef.get().addOnCompleteListener(teacherTask -> {
+                    if (teacherTask.isSuccessful() && teacherTask.getResult().exists()) {
+                        // User is a teacher
+                        Teacher teacher = teacherTask.getResult().toObject(Teacher.class);
+                        Intent intent = new Intent(LoginActivity.this, TeacherDashboardActivity.class);
+
+                        //intent.putExtra("user", teacher);
+                        startActivity(intent);
+                       // finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "User role not found.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+}

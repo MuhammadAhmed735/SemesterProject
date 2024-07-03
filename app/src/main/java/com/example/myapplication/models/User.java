@@ -3,13 +3,12 @@ package com.example.myapplication.models;
 public abstract class User {
     protected String userId;
     protected String name;
-    protected String username;
     protected String email;
     protected String password;
     protected int profilePic;
 
     // Constructors
-    public User(String userId, String name,String username, String email, String password,int profilePic) {
+    public User(String userId, String name, String email, String password,int profilePic) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -17,6 +16,9 @@ public abstract class User {
         this.profilePic = profilePic;
     }
 
+    public User(){
+
+    }
     // Getters and Setters
     public String getUserId() {
         return userId;
@@ -34,13 +36,7 @@ public abstract class User {
         this.name = name;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
 
     public String getEmail() {

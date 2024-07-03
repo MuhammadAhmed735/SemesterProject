@@ -40,10 +40,10 @@ public class TaskAdapter extends ArrayAdapter<Task>
         ImageView status   = view.findViewById(R.id.task_status);
 
         Task task = tasksList.get(position);
-        taskIcon.setImageResource(task.getTask_icon());
+        taskIcon.setImageResource(R.drawable.task_icons);
         taskTitle.setText(task.getTask_title());
         date.setText(task.getTask_date());
-        status.setImageResource(task.getStatus_icon());
+        status.setImageResource(R.drawable.ic_done);
 
         return view;
     }

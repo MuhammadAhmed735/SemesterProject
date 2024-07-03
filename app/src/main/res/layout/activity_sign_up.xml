@@ -67,8 +67,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         app:cardCornerRadius="25dp"
         app:cardElevation="15dp"
 
@@ -246,56 +246,97 @@
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/dob_inputLayout"
-                android:layout_width="0dp"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/role_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:endIconMode="clear_text"
-                android:layout_marginTop="@dimen/inputLayout_marginTop"
-                app:errorEnabled="true"
-                app:errorContentDescription="@string/invalid_dob"
-                app:boxCornerRadiusTopStart="@dimen/textinputlayout_cornerRadius"
-                app:boxCornerRadiusTopEnd="@dimen/textinputlayout_cornerRadius"
-                app:boxCornerRadiusBottomStart="@dimen/textinputlayout_cornerRadius"
-                app:boxCornerRadiusBottomEnd="@dimen/textinputlayout_cornerRadius"
-                android:hint="@string/date_of_birth_text"
+                android:text="Select role :"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="20dp"
                 app:layout_constraintStart_toStartOf="@id/guideline_edittext_left"
-                app:layout_constraintEnd_toEndOf="@id/guideline_edittext_right"
-                app:layout_constraintTop_toBottomOf="@id/name_inputLayout"
-                >
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dob_editText"
-                    android:layout_width="match_parent"
-                    android:letterSpacing="0"
-                    android:textSize="15sp"
-                    android:layout_height="match_parent"
-                    android:inputType="date"
-                    android:drawableStart="@drawable/calendar_icon"
-                    android:drawablePadding="15dp"
-                    android:drawableTint="#282525"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+               android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/name_inputLayout" />
 
+            <RadioGroup
+                android:id="@+id/role_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="20dp"
+
+                app:layout_constraintTop_toTopOf="@id/role_text"
+                app:layout_constraintBottom_toBottomOf="@id/role_text"
+                app:layout_constraintStart_toEndOf="@id/role_text"
+                >
+
+                <RadioButton
+                    android:id="@+id/radio_student"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Student"
+                    android:checked="true"
+                    android:layout_marginEnd="16dp"
+                    />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radio_teacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Teacher" />
+            </RadioGroup>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/registerButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-
+                android:layout_margin="20dp"
                 android:letterSpacing="0.03"
+                android:textAllCaps="false"
                 android:fontFamily="sans-serif-smallcaps"
                 android:text="@string/create_account_text"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+
+               android:layout_marginBottom="20dp"
                 app:cornerRadius="10dp"
-                app:layout_constraintTop_toBottomOf="@id/dob_inputLayout"
+                app:layout_constraintTop_toBottomOf="@id/role_radio_group"
                 app:layout_constraintEnd_toEndOf="@id/guideline_edittext_right"
                 app:layout_constraintStart_toStartOf="@id/guideline_edittext_left" />
+
+
+            <TextView
+                android:id="@+id/account_exists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Already Registered ?"
+
+
+                app:layout_constraintTop_toBottomOf="@id/registerButton"
+                android:layout_marginStart="80dp"
+                app:layout_constraintStart_toStartOf="@id/registerButton" />
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:textAlignment="textStart"
+                android:layout_margin="0dp"
+                android:paddingStart="10dp"
+                android:textAllCaps="false"
+                android:onClick="startLoginActivity"
+                android:fontFamily="@font/abeezee"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:layout_constraintStart_toEndOf="@id/account_exists"
+                app:layout_constraintTop_toTopOf="@id/account_exists"
+                app:layout_constraintBottom_toBottomOf="@id/account_exists"/>
+                />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

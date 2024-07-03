@@ -1,35 +1,83 @@
 package com.example.myapplication.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class Task {
+public class Task implements Parcelable {
 
-    private int task_icon;
+
     private String task_title;
     private String due_date;
     private String assignedDate;
     private String status;
-    private int status_icon;
+
     private String task_description;
     private String taskId;
     private boolean isCompleted ;
     private String assignedByTeacherId;
     private List<String> assignedToStudentIds;
 
-    public Task(int icon,String task_title,String task_description, String date,
-                String assignedDate, int status,String assignedByTeacherId)
+    public Task(String task_title,String task_description, String date,
+                String assignedDate,String assignedByTeacherId)
     {
-        this.task_icon= icon;
+
         this.task_title = task_title;
         this.due_date = date;
-        this.status_icon = status;
+
         this.task_description = task_description;
         this.assignedDate = assignedDate;
         this.assignedByTeacherId = assignedByTeacherId;
         isCompleted = false;
     }
 
+
+    protected Task(Parcel in) {
+
+        task_title = in.readString();
+        due_date = in.readString();
+        assignedDate = in.readString();
+        status = in.readString();
+        task_description = in.readString();
+        taskId = in.readString();
+        isCompleted = in.readByte() != 0;
+        assignedByTeacherId = in.readString();
+        assignedToStudentIds = in.createStringArrayList();
+    }
+
+    public static final Creator<Task> CREATOR = new Creator<Task>() {
+        @Override
+        public Task createFromParcel(Parcel in) {
+            return new Task(in);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(task_title);
+        dest.writeString(due_date);
+        dest.writeString(assignedDate);
+        dest.writeString(status);
+
+        dest.writeString(task_description);
+        dest.writeString(taskId);
+        dest.writeByte((byte) (isCompleted ? 1 : 0));
+        dest.writeString(assignedByTeacherId);
+        dest.writeStringList(assignedToStudentIds);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
     public String getAssignedByTeacherId() {
         return assignedByTeacherId;
     }
@@ -64,33 +112,25 @@ public class Task {
     }
 
 
-    public int getTask_icon() {
-        return task_icon;
-    }
+
 
     public String getTask_title() {
         return task_title;
     }
 
-    public int getStatus_icon() {
-        return status_icon;
-    }
+
 
     public String getTask_date() {
         return due_date;
     }
 
-    public void setStatus_icon(int status_icon) {
-        this.status_icon = status_icon;
-    }
+
 
     public void setTask_date(String task_date) {
         this.due_date = task_date;
     }
 
-    public void setTask_icon(int task_icon) {
-        this.task_icon = task_icon;
-    }
+
 
     public void setTask_title(String task_title) {
         this.task_title = task_title;

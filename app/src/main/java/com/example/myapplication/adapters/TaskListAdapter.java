@@ -3,6 +3,8 @@ package com.example.myapplication.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,9 +18,14 @@ import java.util.List;
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskViewHolder> {
 
     private List<Task> tasks;
+    private OnItemClickListener listener;
 
-    public TaskListAdapter(List<Task> tasks) {
+    public interface OnItemClickListener {
+        void onItemClick(Task task);
+    }
+    public TaskListAdapter(List<Task> tasks,OnItemClickListener listener) {
         this.tasks = tasks;
+        this.listener = listener;
     }
 
     @Override
@@ -32,11 +39,19 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = tasks.get(position);
 
-        // Set the task data to the view holder elements
         holder.taskTitle.setText(task.getTask_title());
-        holder.taskDescription.setText(task.getDescription());
+        holder.dueDate.setText(task.getDue_date());
+        holder.status.setImageResource(R.drawable.ic_cancel);
 
-        // (Optional) Set deadline, priority, or other task attributes
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(task);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -47,13 +62,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
 
         public TextView taskTitle;
-        public TextView taskDescription;
+        public ImageView status;
+        public TextView dueDate;
 
         public TaskViewHolder(View itemView) {
             super(itemView);
 
             taskTitle = itemView.findViewById(R.id.task_title);
-            taskDescription = itemView.findViewById(R.id.task_title);
+            status = itemView.findViewById(R.id.task_status);
+            dueDate = itemView.findViewById(R.id.date);
         }
     }
 }
