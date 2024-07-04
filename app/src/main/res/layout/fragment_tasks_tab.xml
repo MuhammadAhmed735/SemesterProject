@@ -19,12 +19,15 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="60dp"
+            android:layout_margin="40dp"
             android:text="Add Task"
+            android:textSize="13sp"
+            android:textAllCaps="false"
             app:iconTint="@color/white"
+            android:fontFamily="@font/abeezee"
             android:textColor="@color/white"
             app:icon="@drawable/add_icon2"
-            android:onClick="addTask"
+            android:onClick="addtask"
 
             />
         <androidx.recyclerview.widget.RecyclerView

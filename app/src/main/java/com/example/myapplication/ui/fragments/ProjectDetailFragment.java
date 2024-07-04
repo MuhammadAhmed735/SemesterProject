@@ -12,18 +12,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.models.Project;
 import com.example.myapplication.models.Task;
 
-public class TaskDetailFragment extends Fragment {
+public class ProjectDetailFragment extends Fragment {
 
-    private static final String ARG_TASK = "task";
+    private static final String ARG_PROJECT = "project";
 
-    private Task task;
+    private Project project;
 
-    public static TaskDetailFragment newInstance(Task task) {
-        TaskDetailFragment fragment = new TaskDetailFragment();
+    public static ProjectDetailFragment newInstance(Project project) {
+        ProjectDetailFragment fragment = new ProjectDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_TASK, task);
+        args.putParcelable(ARG_PROJECT, project);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,27 +33,27 @@ public class TaskDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            task = getArguments().getParcelable(ARG_TASK);
+            project = getArguments().getParcelable(ARG_PROJECT);
         }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_task_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_project_detail, container, false);
 
 
-        TextView taskTitle = view.findViewById(R.id.taskTitle);
+        TextView projectTitle = view.findViewById(R.id.projectTitle);
         TextView dueDate = view.findViewById(R.id.dueDate);
-        TextView taskDescription = view.findViewById(R.id.taskDescription);
+        TextView projectDescription = view.findViewById(R.id.projectDescription);
         TextView assignedDate = view.findViewById(R.id.assignedDate);
 
 
 
-        taskTitle.setText(task.getTask_title());
-        dueDate.setText(task.getDue_date());
-        taskDescription.setText(task.getDescription());
-        assignedDate.setText(task.getAssignedDate());
+        projectTitle.setText(project.getproject_title());
+        dueDate.setText(project.getDue_date());
+        projectDescription.setText(project.getDescription());
+        assignedDate.setText(project.getAssignedDate());
 
 
         return view;

@@ -42,7 +42,7 @@ public class TaskAdapter extends ArrayAdapter<Task>
         Task task = tasksList.get(position);
         taskIcon.setImageResource(R.drawable.task_icons);
         taskTitle.setText(task.getTask_title());
-        date.setText(task.getTask_date());
+        date.setText(task.getDue_date());
         status.setImageResource(R.drawable.ic_done);
 
         return view;

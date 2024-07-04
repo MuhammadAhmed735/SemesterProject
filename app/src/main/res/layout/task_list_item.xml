@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="10dp"
+    android:clickable="true"
+
+    android:layout_marginTop="3dp">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
+    android:padding="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -23,31 +31,47 @@
         android:layout_height="wrap_content"
         android:text="OOAD Assignment"
         android:textColor="@color/black"
-        android:fontFamily="@font/abeezee"
-        android:textAlignment="center"
 
-        android:textSize="13sp"
+        android:textAlignment="textStart"
+        android:maxLines="2"
+
+        android:textSize="14sp"
         app:layout_constraintTop_toTopOf="@id/task_icon"
         app:layout_constraintBottom_toBottomOf="@id/task_icon"
         app:layout_constraintStart_toEndOf="@id/task_icon"
-        android:layout_marginStart="7dp"
+        android:layout_marginStart="10dp"
         />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12th May"
-        app:layout_constraintTop_toTopOf="@id/task_icon"
-        app:layout_constraintBottom_toBottomOf="@id/task_icon"
-        android:textColor="#756F6F"
+        android:text="Date"
+        app:layout_constraintTop_toBottomOf="@id/task_title"
 
+        android:layout_marginTop="3dp"
+
+        android:textColor="#756F6F"
+        android:layout_marginEnd="10dp"
         android:gravity="start"
 
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@id/task_title"
-        app:layout_constraintEnd_toStartOf="@id/task_status"
+        android:textSize="11sp"
 
+        app:layout_constraintEnd_toEndOf="parent"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Due Date"
+
+        android:textSize="12sp"
+        android:layout_marginEnd="10dp"
+        android:textColor="#2E2C2C"
+        android:layout_marginBottom="3dp"
+      app:layout_constraintBottom_toTopOf="@+id/date"
+        app:layout_constraintStart_toStartOf="@id/date"
+        app:layout_constraintEnd_toEndOf="@id/date"
         />
     <ImageView
         android:id="@+id/task_status"
@@ -59,5 +83,8 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         android:src="@drawable/ic_done"
+        android:visibility="gone"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

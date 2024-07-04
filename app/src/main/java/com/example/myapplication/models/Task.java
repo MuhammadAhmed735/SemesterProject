@@ -14,23 +14,30 @@ public class Task implements Parcelable {
     private String assignedDate;
     private String status;
 
+    private String teacherId;
     private String task_description;
     private String taskId;
     private boolean isCompleted ;
-    private String assignedByTeacherId;
+    private String assignedByTeacherName;
     private List<String> assignedToStudentIds;
 
-    public Task(String task_title,String task_description, String date,
-                String assignedDate,String assignedByTeacherId)
+    public Task(String taskId,String task_title,String task_description, String date,
+                String assignedDate,String assignedByTeacherName,String teacherId)
     {
 
+        this.taskId = taskId;
         this.task_title = task_title;
         this.due_date = date;
 
+        this.teacherId = teacherId;
         this.task_description = task_description;
         this.assignedDate = assignedDate;
-        this.assignedByTeacherId = assignedByTeacherId;
+        this.assignedByTeacherName = assignedByTeacherName;
         isCompleted = false;
+    }
+    public Task()
+    {
+
     }
 
 
@@ -43,8 +50,9 @@ public class Task implements Parcelable {
         task_description = in.readString();
         taskId = in.readString();
         isCompleted = in.readByte() != 0;
-        assignedByTeacherId = in.readString();
-        assignedToStudentIds = in.createStringArrayList();
+        assignedByTeacherName = in.readString();
+        teacherId = in.readString();
+
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -67,19 +75,26 @@ public class Task implements Parcelable {
         dest.writeString(assignedDate);
         dest.writeString(status);
 
+
         dest.writeString(task_description);
         dest.writeString(taskId);
         dest.writeByte((byte) (isCompleted ? 1 : 0));
-        dest.writeString(assignedByTeacherId);
-        dest.writeStringList(assignedToStudentIds);
+        dest.writeString(assignedByTeacherName);
+        dest.writeString(teacherId);
+
     }
 
     @Override
     public int describeContents() {
         return 0;
     }
-    public String getAssignedByTeacherId() {
-        return assignedByTeacherId;
+    public String getAssignedByTeacherName() {
+        return assignedByTeacherName;
+    }
+
+    public String getTeacherId()
+    {
+        return this.teacherId;
     }
 
     public String getAssignedDate() {
@@ -99,9 +114,7 @@ public class Task implements Parcelable {
         this.assignedDate = assignedDate;
     }
 
-    public void setAssignedToStudentIds(List<String> assignedToStudentIds) {
-        this.assignedToStudentIds = assignedToStudentIds;
-    }
+
 
     public void setDue_date(String due_date) {
         this.due_date = due_date;
@@ -120,15 +133,7 @@ public class Task implements Parcelable {
 
 
 
-    public String getTask_date() {
-        return due_date;
-    }
 
-
-
-    public void setTask_date(String task_date) {
-        this.due_date = task_date;
-    }
 
 
 
@@ -142,21 +147,10 @@ public class Task implements Parcelable {
     public void setDescription(String description) {
         this.task_description = description;
     }
-    public void setAssignedByTeacherId(String assignedByTeacherId) {
-        this.assignedByTeacherId = assignedByTeacherId;
+    public void setAssignedByTeacherName(String assignedByTeacherName) {
+        this.assignedByTeacherName = assignedByTeacherName;
     }
 
-    public List<String> getAssignedToStudentIds() {
-        return assignedToStudentIds;
-    }
-
-    public void assignToStudentId(String studentId) {
-        this.assignedToStudentIds.add(studentId);
-    }
-
-    public void removeAssignedStudentId(String studentId) {
-        this.assignedToStudentIds.remove(studentId);
-    }
     public String getStatus() {
         return this.status;
     }

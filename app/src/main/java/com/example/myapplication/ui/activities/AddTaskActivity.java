@@ -3,6 +3,7 @@ package com.example.myapplication.ui.activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,14 +11,18 @@ import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.example.myapplication.models.Task;
+import com.example.myapplication.models.Teacher;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,14 +34,14 @@ import java.util.Locale;
 public class AddTaskActivity extends AppCompatActivity {
 
     private ImageView taskIcon;
-    private EditText taskTitle, taskDescription;
+    private EditText taskTitle, taskDescription, taskId;
     private TextInputEditText dueDate;
-    
-    private MultiAutoCompleteTextView assignedTo;
     private Button saveButton;
 
     private FirebaseFirestore firestore;
     private FirebaseAuth auth;
+    private boolean isDateSelected = false;
+    private boolean isTimeSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +57,7 @@ public class AddTaskActivity extends AppCompatActivity {
         taskTitle = findViewById(R.id.taskTitle);
         taskDescription = findViewById(R.id.taskDescription);
         dueDate = findViewById(R.id.dueDate);
-
-        assignedTo = findViewById(R.id.assignedTo);
+        taskId = findViewById(R.id.taskId);
         saveButton = findViewById(R.id.saveButton);
 
         // Set due date field click listener
@@ -78,11 +82,13 @@ public class AddTaskActivity extends AppCompatActivity {
         final Calendar date = Calendar.getInstance();
         new DatePickerDialog(AddTaskActivity.this, (view, year, month, dayOfMonth) -> {
             date.set(year, month, dayOfMonth);
+            isDateSelected = true;
             new TimePickerDialog(AddTaskActivity.this, (view1, hourOfDay, minute) -> {
                 date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 date.set(Calendar.MINUTE, minute);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                 dueDate.setText(sdf.format(date.getTime()));
+                isTimeSelected = true;
             }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), true).show();
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }
@@ -93,48 +99,83 @@ public class AddTaskActivity extends AppCompatActivity {
         String currentDate = sdf.format(new Date());
 
         // Get input values
+        String taskid = taskId.getText().toString().trim();
         String title = taskTitle.getText().toString().trim();
         String description = taskDescription.getText().toString().trim();
         String due = dueDate.getText().toString().trim();
         String teacherId = auth.getCurrentUser().getUid();
-        List<String> assignedStudents = getAssignedStudents();
 
         // Validate input
-        if (title.isEmpty() || description.isEmpty() || due.isEmpty() || assignedStudents.isEmpty()) {
+        if (taskid.isEmpty() || title.isEmpty() || description.isEmpty() || due.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Create Task object
-        Task task = new Task(
-                // Icon resource
-                title,
-                description,
-                due,
-                currentDate,
-                // Status icon
-                teacherId
-        );
-        task.setAssignedToStudentIds(assignedStudents);
-        task.setStatus("incomplete");
+        // Ensure both date and time are selected
+        if (!isDateSelected || !isTimeSelected) {
+            Toast.makeText(this, "Please select both date and time", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Save task to Firestore
-        firestore.collection("tasks")
-                .add(task)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(AddTaskActivity.this, "Task added successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                })
-                .addOnFailureListener(e -> Toast.makeText(AddTaskActivity.this, "Error adding task", Toast.LENGTH_SHORT).show());
+        firestore.collection("teachers").document(teacherId).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                String teacherName = documentSnapshot.getString("name");
+
+                // Create Task object
+                Task task = new Task(taskid, title, description, due, currentDate, teacherName,teacherId);
+                task.setStatus("incomplete");
+
+                // Save task to Firestore
+                firestore.collection("tasks").document(taskid).get().addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        Toast.makeText(this, "Task ID already exists. Please use a unique ID.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        firestore.collection("tasks").document(taskid).set(task)
+                                .addOnSuccessListener(documentReference -> {
+                                    updateTeacherTaskList(teacherId, taskid);
+                                    showSuccessDialog();
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(AddTaskActivity.this, "Error adding task", Toast.LENGTH_SHORT).show());
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Teacher not found", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> Toast.makeText(this, "Error fetching teacher", Toast.LENGTH_SHORT).show());
     }
 
-    private List<String> getAssignedStudents() {
-        String input = assignedTo.getText().toString();
-        String[] studentsArray = input.split(",\\s*");
-        List<String> studentsList = new ArrayList<>();
-        for (String student : studentsArray) {
-            studentsList.add(student.trim());
-        }
-        return studentsList;
+    private void updateTeacherTaskList(String teacherId, String taskid) {
+        DocumentReference teacherRef = firestore.collection("teachers").document(teacherId);
+        teacherRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                List<String> assignedTaskIds = (List<String>) documentSnapshot.get("assignedTaskIds");
+                if (assignedTaskIds == null) {
+                    assignedTaskIds = new ArrayList<>();
+                }
+                assignedTaskIds.add(taskid);
+                teacherRef.update("assignedTaskIds", assignedTaskIds);
+            } else {
+                Toast.makeText(this,"Unable to add teacher",Toast.LENGTH_SHORT).show();
+             //   List<String> assignedTaskIds = new ArrayList<>();
+              //  assignedTaskIds.add(taskid);
+              //  teacherRef.set(new Teacher(teacherId, "", "", "", 0, assignedTaskIds));
+            }
+        });
+    }
+
+    private void showSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Success!")
+                .setMessage("Task added successfully")
+                .setIcon(R.drawable.ic_done)
+                .setPositiveButton("Add Another Task", (dialog, which) -> {
+                    taskId.setText("");
+                    taskTitle.setText("");
+                    taskDescription.setText("");
+                    dueDate.setText("");
+                })
+                .setNegativeButton("Go Back", (dialog, which) -> finish())
+
+                .show();
     }
 }

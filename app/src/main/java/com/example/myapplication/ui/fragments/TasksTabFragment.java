@@ -2,94 +2,96 @@ package com.example.myapplication.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
+import android.widget.Toast;
 import com.example.myapplication.R;
-import com.example.myapplication.adapters.TaskAdapter;
 import com.example.myapplication.adapters.TaskListAdapter;
-import com.example.myapplication.adapters.TasksPagerAdapter;
 import com.example.myapplication.models.Task;
 import com.example.myapplication.ui.activities.AddTaskActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TasksTabFragment extends Fragment implements  TaskListAdapter.OnItemClickListener {
+public class TasksTabFragment extends Fragment implements TaskListAdapter.OnItemClickListener {
 
     private RecyclerView teacherTaskList;
     private TaskListAdapter adapter;
     private ExtendedFloatingActionButton addTaskButton;
+    private List<Task> tasks = new ArrayList<>();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
 
     public TasksTabFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static TasksTabFragment newInstance(String param1, String param2) {
-        TasksTabFragment fragment = new TasksTabFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view=  inflater.inflate(R.layout.fragment_tasks_tab, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tasks_tab, container, false);
 
-        teacherTaskList= view.findViewById(R.id.teacher_task_list_tab);
+        teacherTaskList = view.findViewById(R.id.teacher_task_list_tab);
         addTaskButton = view.findViewById(R.id.add_task_button);
 
-        List<Task> tasks = new ArrayList<Task>();// Fetch your task data here (e.g., from database or API)
-                adapter = new TaskListAdapter(tasks,this);
-
+        teacherTaskList.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new TaskListAdapter(tasks, this);
         teacherTaskList.setAdapter(adapter);
 
-        addTaskButton.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddTaskActivity.class);
-                startActivity(intent);
-
-            }
+        addTaskButton.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), AddTaskActivity.class);
+            startActivity(intent);
         });
 
-        // Implement logic for item clicks and other functionalities
+        loadTasks();
 
         return view;
     }
+
+    private void loadTasks() {
+        String teacherId = auth.getCurrentUser().getUid();
+        firestore.collection("tasks")
+                .whereEqualTo("teacherId", teacherId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot value, FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Toast.makeText(getContext(), "Error loading tasks", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        tasks.clear();
+                        for (QueryDocumentSnapshot doc : value) {
+                            Task task = doc.toObject(Task.class);
+                            tasks.add(task);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
     @Override
     public void onItemClick(Task task) {
         TaskDetailFragment fragment = TaskDetailFragment.newInstance(task);
@@ -98,6 +100,4 @@ public class TasksTabFragment extends Fragment implements  TaskListAdapter.OnIte
                 .addToBackStack(null)
                 .commit();
     }
-
-
 }

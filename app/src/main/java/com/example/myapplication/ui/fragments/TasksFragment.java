@@ -63,13 +63,14 @@ public class TasksFragment extends Fragment {
 
 
         int taskicon = R.drawable.task_icons;
+        String taskId = "T21";
         String taskTitle = "OOAD Assignment";
         String date = "20/10/2024";
         int taskStatus = R.drawable.ic_done;
 
         for (int i = 0; i < 10; i++) {
 
-            tasks.add(new Task( taskTitle, "total",date,date,"bushra"));
+            tasks.add(new Task(taskId, taskTitle, "total",date,date,"bushra","fgghfh"));
         }
 
         return tasks;
