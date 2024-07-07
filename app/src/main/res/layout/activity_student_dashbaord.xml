@@ -6,16 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.StudentDashbaordActivity">
 
-    <include
-        android:id="@+id/appbar2"
-        layout="@layout/app_bar_layout"/>
+
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:layout_below="@+id/appbar2"
+
+
         android:layout_above="@id/std_bottom_nav"
         />
 

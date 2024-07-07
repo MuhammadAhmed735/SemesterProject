@@ -2,6 +2,7 @@ package com.example.myapplication.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.models.Project;
 import com.example.myapplication.models.Task;
 import com.example.myapplication.models.Teacher;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -42,6 +45,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private boolean isDateSelected = false;
     private boolean isTimeSelected = false;
+    String taskType = "task";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,17 @@ public class AddTaskActivity extends AppCompatActivity {
         taskId = findViewById(R.id.taskId);
         saveButton = findViewById(R.id.saveButton);
 
+        taskType = getIntent().getStringExtra("type");
+        if(Objects.equals(taskType, "project"))
+        {
+            Toast.makeText(this,"Projects",Toast.LENGTH_SHORT).show();
+            taskTitle.setHint("Project Title");
+            taskDescription.setHint("Project Description");
+            taskId.setHint("Project Id");
+            saveButton.setText("Assign Project");
+
+        }
+
         // Set due date field click listener
         dueDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +87,16 @@ public class AddTaskActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveTask();
+                if(taskType.equals("project"))
+                {
+                    saveProject();
+                }
+                else if (taskType.equals("task"))
+                {
+                    saveTask();
+                }
+                else  Toast.makeText(getApplicationContext(),"Unable to save task/project",Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -144,16 +168,66 @@ public class AddTaskActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> Toast.makeText(this, "Error fetching teacher", Toast.LENGTH_SHORT).show());
     }
 
+    private void saveProject() {
+        // Get current date and time
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+
+        // Get input values
+        String taskid = taskId.getText().toString().trim();
+        String title = taskTitle.getText().toString().trim();
+        String description = taskDescription.getText().toString().trim();
+        String due = dueDate.getText().toString().trim();
+        String teacherId = auth.getCurrentUser().getUid();
+
+        // Validate input
+        if (taskid.isEmpty() || title.isEmpty() || description.isEmpty() || due.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Ensure both date and time are selected
+        if (!isDateSelected || !isTimeSelected) {
+            Toast.makeText(this, "Please select both date and time", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        firestore.collection("teachers").document(teacherId).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                String teacherName = documentSnapshot.getString("name");
+
+                // Create Task object
+                Project project = new Project(taskid, title, description, due, currentDate, teacherName,teacherId);
+                project.setStatus("incomplete");
+
+                // Save task to Firestore
+                firestore.collection("projects").document(taskid).get().addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        Toast.makeText(this, "Project ID already exists. Please use a unique ID.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        firestore.collection("projects").document(taskid).set(project)
+                                .addOnSuccessListener(documentReference -> {
+                                    updateTeacherTaskList(teacherId, taskid);
+                                    showProjectSuccessDialog();
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(AddTaskActivity.this, "Error adding Project", Toast.LENGTH_SHORT).show());
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Teacher not found", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> Toast.makeText(this, "Error fetching teacher", Toast.LENGTH_SHORT).show());
+    }
     private void updateTeacherTaskList(String teacherId, String taskid) {
         DocumentReference teacherRef = firestore.collection("teachers").document(teacherId);
         teacherRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                List<String> assignedTaskIds = (List<String>) documentSnapshot.get("assignedTaskIds");
+                List<String> assignedTaskIds = (List<String>) documentSnapshot.get("assignedProjectIds");
                 if (assignedTaskIds == null) {
                     assignedTaskIds = new ArrayList<>();
                 }
                 assignedTaskIds.add(taskid);
-                teacherRef.update("assignedTaskIds", assignedTaskIds);
+                teacherRef.update("assignedProjectIds", assignedTaskIds);
             } else {
                 Toast.makeText(this,"Unable to add teacher",Toast.LENGTH_SHORT).show();
              //   List<String> assignedTaskIds = new ArrayList<>();
@@ -169,6 +243,21 @@ public class AddTaskActivity extends AppCompatActivity {
                 .setMessage("Task added successfully")
                 .setIcon(R.drawable.ic_done)
                 .setPositiveButton("Add Another Task", (dialog, which) -> {
+                    taskId.setText("");
+                    taskTitle.setText("");
+                    taskDescription.setText("");
+                    dueDate.setText("");
+                })
+                .setNegativeButton("Go Back", (dialog, which) -> finish())
+
+                .show();
+    }
+    private void showProjectSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Success!")
+                .setMessage("Project added successfully")
+                .setIcon(R.drawable.ic_done)
+                .setPositiveButton("Add Another Project", (dialog, which) -> {
                     taskId.setText("");
                     taskTitle.setText("");
                     taskDescription.setText("");

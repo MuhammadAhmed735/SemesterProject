@@ -58,7 +58,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
             studentName = itemView.findViewById(R.id.student_name);
-            studentId = itemView.findViewById(R.id.student_id);
+
             taskStatus = itemView.findViewById(R.id.task_status);
             completionTime = itemView.findViewById(R.id.completion_time);
         }

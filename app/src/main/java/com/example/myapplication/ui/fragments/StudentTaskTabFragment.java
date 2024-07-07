@@ -28,17 +28,17 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import java.util.ArrayList;
 import java.util.List;
 
-public class TasksTabFragment extends Fragment implements TaskListAdapter.OnItemClickListener {
+public class StudentTaskTabFragment extends Fragment implements TaskListAdapter.OnItemClickListener {
 
-    private RecyclerView teacherTaskList;
+    private RecyclerView studentTaskList;
     private TaskListAdapter adapter;
-    private ExtendedFloatingActionButton addTaskButton;
+
     private List<Task> tasks = new ArrayList<>();
 
     private FirebaseFirestore firestore;
     private FirebaseAuth auth;
 
-    public TasksTabFragment() {
+    public StudentTaskTabFragment() {
         // Required empty public constructor
     }
 
@@ -51,20 +51,15 @@ public class TasksTabFragment extends Fragment implements TaskListAdapter.OnItem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tasks_tab, container, false);
+        View view = inflater.inflate(R.layout.fragment_student_task_tab, container, false);
 
-        teacherTaskList = view.findViewById(R.id.teacher_task_list_tab);
-        addTaskButton = view.findViewById(R.id.add_task_button);
+        studentTaskList = view.findViewById(R.id.teacher_task_list_tab);
 
-        teacherTaskList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        studentTaskList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new TaskListAdapter(tasks, this);
-        teacherTaskList.setAdapter(adapter);
+        studentTaskList.setAdapter(adapter);
 
-        addTaskButton.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getContext(), AddTaskActivity.class);
-            intent.putExtra("type","task");
-            startActivity(intent);
-        });
 
         loadTasks();
 
@@ -72,9 +67,7 @@ public class TasksTabFragment extends Fragment implements TaskListAdapter.OnItem
     }
 
     private void loadTasks() {
-        String teacherId = auth.getCurrentUser().getUid();
         firestore.collection("tasks")
-                .whereEqualTo("teacherId", teacherId)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot value, FirebaseFirestoreException error) {
@@ -95,7 +88,7 @@ public class TasksTabFragment extends Fragment implements TaskListAdapter.OnItem
 
     @Override
     public void onItemClick(Task task) {
-        TaskDetailFragment fragment = TaskDetailFragment.newInstance(task);
+        ProjectDetailFragment fragment = ProjectDetailFragment.newInstance(task);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)

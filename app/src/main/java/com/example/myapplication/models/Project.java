@@ -21,6 +21,10 @@ public class Project implements Parcelable {
     private String assignedByTeacherName;
     private List<String> assignedToStudentIds;
 
+    public  Project()
+    {
+
+    }
     public Project(String projectId,String project_title,String project_description, String date,
                 String assignedDate,String assignedByTeacherName,String teacherId)
     {

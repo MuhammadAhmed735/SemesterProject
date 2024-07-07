@@ -32,11 +32,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectsTabFragment extends Fragment implements  ProjectListAdapter.OnItemClickListener {
+public class StudentProjectTabFragment extends Fragment implements  ProjectListAdapter.OnItemClickListener {
 
-    private RecyclerView teacherProjectList;
+    private RecyclerView studentProjectList;
     private ProjectListAdapter adapter;
-    private ExtendedFloatingActionButton addProjectButton;
+
 
     private List<Project> projects = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class ProjectsTabFragment extends Fragment implements  ProjectListAdapter
     private String mParam1;
     private String mParam2;
 
-    public ProjectsTabFragment() {
+    public StudentProjectTabFragment() {
         // Required empty public constructor
     }
 
@@ -77,34 +77,24 @@ public class ProjectsTabFragment extends Fragment implements  ProjectListAdapter
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=  inflater.inflate(R.layout.fragment_projects_tab, container, false);
+        View view=  inflater.inflate(R.layout.fragment_student_project_tab, container, false);
 
-        teacherProjectList= view.findViewById(R.id.project_list_tab);
-        addProjectButton = view.findViewById(R.id.add_project_button);
+        studentProjectList= view.findViewById(R.id.project_list_tab);
 
 
-        teacherProjectList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        studentProjectList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ProjectListAdapter(projects, this);
-        teacherProjectList.setAdapter(adapter);
+        studentProjectList.setAdapter(adapter);
 
 
 
         loadProjects();
 
 
-        teacherProjectList.setAdapter(adapter);
+        studentProjectList.setAdapter(adapter);
 
-        addProjectButton.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddTaskActivity.class);
-                intent.putExtra("type","project");
-
-                startActivity(intent);
-            }
-        });
+        
 
         // Implement logic for item clicks and other functionalities
 
@@ -122,7 +112,7 @@ public class ProjectsTabFragment extends Fragment implements  ProjectListAdapter
     {
         String teacherId = auth.getCurrentUser().getUid();
         firestore.collection("projects")
-                .whereEqualTo("teacherId", teacherId)
+
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot value, FirebaseFirestoreException error) {

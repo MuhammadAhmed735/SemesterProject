@@ -5,15 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
+import com.google.firebase.auth.FirebaseAuth;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.fragments.CoursesFragment;
 import com.example.myapplication.ui.fragments.ProfileFragment;
+
+import com.example.myapplication.ui.fragments.StudentTaskList;
 import com.example.myapplication.ui.fragments.TasksFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -21,7 +24,8 @@ public class StudentDashbaordActivity extends AppCompatActivity {
 
 
     BottomNavigationView student_navBar;
-    Toolbar toolbar;
+    private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +33,9 @@ public class StudentDashbaordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_dashbaord);
 
 
-        toolbar = findViewById(R.id.appbar);
-
-
-        setSupportActionBar(toolbar);
-
-        toolbar.getOverflowIcon().setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_IN);
+        auth = FirebaseAuth.getInstance();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container,new TasksFragment()).commit();
+                .replace(R.id.fragment_container,new StudentTaskList()).commit();
 
 
         student_navBar = findViewById(R.id.std_bottom_nav);
@@ -48,14 +47,11 @@ public class StudentDashbaordActivity extends AppCompatActivity {
                 int item_id = item.getItemId();
                 if(item_id==R.id.tasksList)
                 {
-                    selectedFragment = new TasksFragment();
+                    selectedFragment = new StudentTaskList();
                 }
                 else if (item_id == R.id.profile)
                 {
                     selectedFragment = new ProfileFragment();
-                } else if (item_id ==R.id.courses)
-                {
-                    selectedFragment = new CoursesFragment();
                 }
                 else
                 {
@@ -82,5 +78,17 @@ public class StudentDashbaordActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.std_options_menu,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            auth.signOut();
+            Intent intent = new Intent(StudentDashbaordActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear the activity stack
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
