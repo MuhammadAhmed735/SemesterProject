@@ -132,7 +132,7 @@ public class TaskDetailFragment extends Fragment {
     private void showMarkInputDialog(TaskSubmission submission) {
         // Create a custom dialog or use AlertDialog to get user input
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Enter Marks (1-10)");
+        builder.setTitle("Enter Marks : ");
 
         // Set up the input
         final EditText input = new EditText(requireContext());

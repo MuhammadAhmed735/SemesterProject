@@ -2,20 +2,16 @@ package com.example.myapplication.ui.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ui.fragments.CoursesFragment;
 import com.example.myapplication.ui.fragments.ProfileFragment;
-import com.example.myapplication.ui.fragments.TasksFragment;
 import com.example.myapplication.ui.fragments.TeacherTasksList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
