@@ -15,7 +15,7 @@ public class Student extends User implements Serializable {
         this.taskIds =  taskIds;
         this.enrolledCoursesIds = enrolledCoursesIds;
     }
-    public Student()
+    public  Student()
     {
 
     }

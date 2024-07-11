@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.example.myapplication.models.Student;
+import com.example.myapplication.models.Teacher;
 import com.google.firebase.auth.FirebaseAuth;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.fragments.CoursesFragment;
@@ -25,12 +28,15 @@ public class StudentDashbaordActivity extends AppCompatActivity {
 
     BottomNavigationView student_navBar;
     private FirebaseAuth auth;
-
+    Student loggedInStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_dashbaord);
+
+
+
 
 
         auth = FirebaseAuth.getInstance();
@@ -51,6 +57,7 @@ public class StudentDashbaordActivity extends AppCompatActivity {
                 }
                 else if (item_id == R.id.profile)
                 {
+               //     Toast.makeText(getApplicationContext(),loggedInStudent.getName(),Toast.LENGTH_SHORT).show();
                     selectedFragment = new ProfileFragment();
                 }
                 else

@@ -148,6 +148,44 @@
         android:layout_marginStart="10dp"
         app:layout_constraintTop_toTopOf="@id/assignedByLabel"/>
 
+    <TextView
+        android:id="@+id/submission_dateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textStyle="bold"
+
+        android:textColor="@color/black"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/assignedByLabel"
+        app:layout_constraintTop_toBottomOf="@id/assignedByLabel"
+        />
+
+    <TextView
+        android:id="@+id/submission_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/submission_dateLabel"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toTopOf="@id/submission_dateLabel"/>
+    <TextView
+        android:id="@+id/marks_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:letterSpacing="0.02"
+        app:layout_constraintTop_toBottomOf="@id/submission_dateLabel"
+        app:layout_constraintStart_toStartOf="@id/submission_dateLabel"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+
+        />
     <!-- Assigned To -->
 
 
@@ -156,7 +194,7 @@
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/assignedBy"
+        app:layout_constraintTop_toBottomOf="@id/marks_tv"
         android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

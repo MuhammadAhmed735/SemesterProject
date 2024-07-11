@@ -50,8 +50,9 @@ public class SplashScreen extends AppCompatActivity {
             if (task.isSuccessful() && task.getResult().exists()) {
                 // User is a student
                 Student student = task.getResult().toObject(Student.class);
+
                 Intent intent = new Intent(this, StudentDashbaordActivity.class);
-                intent.putExtra("user", student);
+                intent.putExtra("student", student);
                 startActivity(intent);
                 finish();
             } else {
@@ -62,7 +63,7 @@ public class SplashScreen extends AppCompatActivity {
                         Teacher teacher = teacherTask.getResult().toObject(Teacher.class);
                         Intent intent = new Intent(this, TeacherDashboardActivity.class);
 
-                        intent.putExtra("user", teacher);
+                        intent.putExtra("teacher", teacher);
                         startActivity(intent);
                          finish();
                     } else {
