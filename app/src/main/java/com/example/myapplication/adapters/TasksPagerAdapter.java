@@ -22,7 +22,7 @@ public class TasksPagerAdapter extends FragmentStateAdapter {
             case 0:
                 return new TasksTabFragment();
             case 1:
-                return new ProjectsTabFragment();
+                return new TasksTabFragment();
             default:
                 return null;
         }
