@@ -193,7 +193,14 @@ public class ProjectDetailFragment extends Fragment {
             firestore.collection("TaskSubmissions")
                     .document(submissionId)
                     .set(taskSubmission)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Task submitted successfully", Toast.LENGTH_SHORT).show())
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(getContext(), "Task submitted successfully", Toast.LENGTH_SHORT).show();
+                        submitButton.setVisibility(View.GONE);
+                        submissionDateLabel.setText("Submission Date  :  ");
+                        submissionDate.setText(taskSubmission.getSubmissionTime());
+                        status.setText(taskSubmission.getStatus());
+
+                    })
                     .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to submit task", Toast.LENGTH_SHORT).show());
 
         } else if (Objects.equals(type, "project")) {
@@ -204,7 +211,15 @@ public class ProjectDetailFragment extends Fragment {
             firestore.collection("ProjectSubmissions")
                     .document(submissionId)
                     .set(projectSubmission)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Project submitted successfully", Toast.LENGTH_SHORT).show())
+                    .addOnSuccessListener(aVoid -> {
+
+                            Toast.makeText(getContext(), "Project submitted successfully", Toast.LENGTH_SHORT).show();
+                            submitButton.setVisibility(View.GONE);
+                            submissionDateLabel.setText("Submission Date  :  ");
+                            submissionDate.setText(projectSubmission.getSubmissionTime());
+                            status.setText(projectSubmission.getStatus());
+
+                    })
                     .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to submit project", Toast.LENGTH_SHORT).show());
         }
     }

@@ -112,7 +112,7 @@ public class ProjectsTabFragment extends Fragment implements  ProjectListAdapter
     }
     @Override
     public void onItemClick(Project project) {
-        ProjectDetailFragment fragment = ProjectDetailFragment.newInstance(project);
+        TeacherProjectDetail fragment = TeacherProjectDetail.newInstance(project);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
